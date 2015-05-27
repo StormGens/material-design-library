@@ -27,32 +27,36 @@ public abstract class AActivity extends ActionBarActivity {
 
         setContentView(contentView);
 
-        ActionBarHandler actionBarHandler = getActionBarHandler();
-        if (actionBarHandler == null) mCustomToolbar = new ToolbarDefault(this);
-        else mCustomToolbar = actionBarHandler.build();
+        if (getActionBarVisible()){
+            ActionBarHandler actionBarHandler = getActionBarHandler();
+            if (actionBarHandler == null) mCustomToolbar = new ToolbarDefault(this);
+            else mCustomToolbar = actionBarHandler.build();
 
-        if (mCustomToolbar instanceof ToolbarSearch) {
-            ToolbarSearch toolbarSearch = (ToolbarSearch) mCustomToolbar;
-            toolbarSearch.setActivity(this);
+            if (mCustomToolbar instanceof ToolbarSearch) {
+                ToolbarSearch toolbarSearch = (ToolbarSearch) mCustomToolbar;
+                toolbarSearch.setActivity(this);
 
-            if (savedInstanceState != null) {
-                toolbarSearch
-                        .setConstraint(savedInstanceState.getString(TOOLBAR_SEARCH_CONSTRAINT_KEY));
-                if (savedInstanceState.getBoolean(TOOLBAR_SEARCH_IS_SHOWN)) {
-                    toolbarSearch.showSearchBar();
+                if (savedInstanceState != null) {
+                    toolbarSearch
+                            .setConstraint(savedInstanceState.getString(TOOLBAR_SEARCH_CONSTRAINT_KEY));
+                    if (savedInstanceState.getBoolean(TOOLBAR_SEARCH_IS_SHOWN)) {
+                        toolbarSearch.showSearchBar();
+                    }
                 }
             }
+
+            ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content))
+                    .getChildAt(0);
+            if (this instanceof NavigationDrawerActivity) rootView.addView(mCustomToolbar, 1);
+            else rootView.addView(mCustomToolbar);
+
+            mCustomToolbar.getToolbar()
+                    .setTitleTextColor(getResources().getColor(android.R.color.white));
+            setSupportActionBar(mCustomToolbar.getToolbar());
+            if (getSupportActionBar()!=null){
+                getSupportActionBar().setDisplayShowHomeEnabled(true);
+            }
         }
-
-        ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content))
-                .getChildAt(0);
-        if (this instanceof NavigationDrawerActivity) rootView.addView(mCustomToolbar, 1);
-        else rootView.addView(mCustomToolbar);
-
-        mCustomToolbar.getToolbar()
-                .setTitleTextColor(getResources().getColor(android.R.color.white));
-        setSupportActionBar(mCustomToolbar.getToolbar());
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -134,5 +138,9 @@ public abstract class AActivity extends ActionBarActivity {
     }
 
     protected abstract ActionBarHandler getActionBarHandler();
+
+    protected boolean getActionBarVisible(){
+        return true;
+    }
 
 }
