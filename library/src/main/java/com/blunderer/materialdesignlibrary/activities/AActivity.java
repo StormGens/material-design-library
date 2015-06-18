@@ -31,7 +31,6 @@ public abstract class AActivity extends ActionBarActivity {
             ActionBarHandler actionBarHandler = getActionBarHandler();
             if (actionBarHandler == null) mCustomToolbar = new ToolbarDefault(this);
             else mCustomToolbar = actionBarHandler.build();
-
             if (mCustomToolbar instanceof ToolbarSearch) {
                 ToolbarSearch toolbarSearch = (ToolbarSearch) mCustomToolbar;
                 toolbarSearch.setActivity(this);

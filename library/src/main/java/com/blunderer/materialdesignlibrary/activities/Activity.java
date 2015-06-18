@@ -2,6 +2,7 @@ package com.blunderer.materialdesignlibrary.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 
@@ -19,6 +20,16 @@ public abstract class Activity extends AActivity {
         ViewStub stub = (ViewStub) findViewById(R.id.view_stub);
         stub.setLayoutResource(getContentView());
         mView = stub.inflate();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

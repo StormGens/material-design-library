@@ -10,4 +10,27 @@
         <item name="colorPrimaryDark">@color/mdl_color_primary_dark</item>
     </style>
 
+    <style name="MaterialDesignLibraryTheme.Light.ToolBar">
+        <item name="titleTextAppearance">@style/TextAppearance.Widget.AppCompat.Toolbar.Title</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle</item>
+        <item name="titleMargins">4dp</item>
+        <item name="maxButtonHeight">56dp</item>
+        <item name="collapseIcon">?attr/homeAsUpIndicator</item>
+        <item name="collapseContentDescription">@string/abc_toolbar_collapse_description</item>
+        <item name="contentInsetStart">16dp</item>
+        <!-- colorControlNormal 会影响返回箭头颜色-->
+        <item name="colorControlNormal">@color/carbon_white</item>
+    </style>
+    <style name="MaterialDesignLibraryTheme.ToolBar">
+        <item name="titleTextAppearance">@style/TextAppearance.Widget.AppCompat.Toolbar.Title</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle</item>
+        <item name="titleMargins">4dp</item>
+        <item name="maxButtonHeight">56dp</item>
+        <item name="collapseIcon">?attr/homeAsUpIndicator</item>
+        <item name="collapseContentDescription">@string/abc_toolbar_collapse_description</item>
+        <item name="contentInsetStart">16dp</item>
+        <!-- colorControlNormal 会影响返回箭头颜色-->
+        <item name="colorControlNormal">@color/carbon_white</item>
+    </style>
+
 </resources>

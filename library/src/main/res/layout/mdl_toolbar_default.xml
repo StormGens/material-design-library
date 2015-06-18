@@ -8,6 +8,7 @@
     <android.support.v7.widget.Toolbar
         android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
+        android:theme="@style/MaterialDesignLibraryTheme.Light.ToolBar"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"/>
 
