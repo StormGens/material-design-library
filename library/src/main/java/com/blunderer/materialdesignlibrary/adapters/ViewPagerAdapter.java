@@ -18,6 +18,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         mViewPagerItems = viewPagerItems;
     }
 
+    public List<ViewPagerItem> getmViewPagerItems() {
+        return mViewPagerItems;
+    }
+
     @Override
     public CharSequence getPageTitle(int position) {
         return mViewPagerItems.get(position).getTitle();
