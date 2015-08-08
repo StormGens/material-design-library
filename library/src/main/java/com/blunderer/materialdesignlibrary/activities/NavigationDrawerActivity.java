@@ -22,6 +22,7 @@ import com.blunderer.materialdesignlibrary.interfaces.NavigationDrawer;
 import com.blunderer.materialdesignlibrary.listeners.OnAccountChangeListener;
 import com.blunderer.materialdesignlibrary.listeners.OnMoreAccountClickListener;
 import com.blunderer.materialdesignlibrary.models.Account;
+import com.blunderer.materialdesignlibrary.models.DSNavigationDrawerListHeader;
 import com.blunderer.materialdesignlibrary.models.ListItem;
 import com.blunderer.materialdesignlibrary.models.NavigationDrawerAccountsListItemAccount;
 import com.blunderer.materialdesignlibrary.models.NavigationDrawerAccountsListItemIntent;
@@ -248,6 +249,18 @@ public abstract class NavigationDrawerActivity extends AActivity
                     .remove(mCurrentItem.getFragment()).commit();
             mTopListView.setItemChecked(mCurrentItemPosition, false);
         }
+        if (navigationDrawerTopHandler != null&&navigationDrawerTopHandler.getListHeader()!=null){
+            final DSNavigationDrawerListHeader header=navigationDrawerTopHandler.getListHeader();
+            View headerView=getLayoutInflater().inflate(header.getHeaderResId(), null);
+            mTopListView.addHeaderView(headerView);
+            headerView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(header.getIntent());
+                }
+            });
+
+        }
 
         mListTopAdapter.notifyDataSetChanged();
     }
@@ -286,8 +299,8 @@ public abstract class NavigationDrawerActivity extends AActivity
                         .commit();
             }
             mCurrentItem = itemFragment;
-            mCurrentItemPosition = (isNavigationDrawerAccountHandlerEmpty() ? 0 : 1) +
-                    fragmentPosition;
+            mCurrentItemPosition = (isNavigationDrawerAccountHandlerEmpty() ? 0 : 1)
+                    +mTopListView.getHeaderViewsCount()+ fragmentPosition;
 
             mTopListView.setItemChecked(mCurrentItemPosition, true);
             replaceTitle(mCurrentItem);
@@ -309,7 +322,7 @@ public abstract class NavigationDrawerActivity extends AActivity
                     }
                     mCurrentItem = itemFragment;
                     mCurrentItemPosition = (isNavigationDrawerAccountHandlerEmpty() ?
-                            0 : 1) + i;
+                            0 : 1) +mTopListView.getHeaderViewsCount() + i;
 
                     mTopListView.setItemChecked(mCurrentItemPosition, true);
                     replaceTitle(mCurrentItem);
@@ -410,6 +423,17 @@ public abstract class NavigationDrawerActivity extends AActivity
     private void replaceTitle(CharSequence title) {
         if (replaceActionBarTitleByNavigationDrawerItemTitle()) {
             getSupportActionBar().setTitle(title);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mCurrentItemPosition==mTopListView.getHeaderViewsCount()){
+            super.onBackPressed();
+        }else{
+            mCurrentItemPosition=0;
+            selectDefaultItemPosition(mCurrentItemPosition,true);
+            closeNavigationDrawer();
         }
     }
 
