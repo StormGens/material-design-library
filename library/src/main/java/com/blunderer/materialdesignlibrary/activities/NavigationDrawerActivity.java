@@ -136,7 +136,7 @@ public abstract class NavigationDrawerActivity extends AActivity
         super.onSaveInstanceState(outState);
 
         outState.putInt("current_fragment_position", mTopListView.getCheckedItemPosition()
-                - (isNavigationDrawerAccountHandlerEmpty() ? 0 : 1));
+                - (isNavigationDrawerAccountHandlerEmpty() ? 0 : 1)-mTopListView.getHeaderViewsCount());
         if (mAccountsLayout != null) outState.putIntArray("cc", mAccountsLayout.mAccountsPositions);
     }
 
@@ -252,7 +252,10 @@ public abstract class NavigationDrawerActivity extends AActivity
         if (navigationDrawerTopHandler != null&&navigationDrawerTopHandler.getListHeader()!=null){
             final DSNavigationDrawerListHeader header=navigationDrawerTopHandler.getListHeader();
             View headerView=getLayoutInflater().inflate(header.getHeaderResId(), null);
-            mTopListView.addHeaderView(headerView);
+            if (mTopListView.getHeaderViewsCount()==0){
+                mTopListView.addHeaderView(headerView);
+            }
+
             headerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -442,4 +445,7 @@ public abstract class NavigationDrawerActivity extends AActivity
                 mNavigationDrawerAccountsHandler.getNavigationDrawerAccounts().size() <= 0;
     }
 
+    public NavigationDrawerListItemTopFragment getmCurrentItem() {
+        return mCurrentItem;
+    }
 }
