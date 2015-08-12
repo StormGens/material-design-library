@@ -19,6 +19,7 @@
         android:paddingLeft="@dimen/mdl_navigation_drawer_row_padding"
         android:paddingRight="@dimen/mdl_navigation_drawer_row_padding"
         android:orientation="horizontal"
+        android:duplicateParentState="true"
         android:gravity="center_vertical">
 
         <ImageView

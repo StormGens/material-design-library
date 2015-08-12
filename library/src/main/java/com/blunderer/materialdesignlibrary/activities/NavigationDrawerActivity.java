@@ -5,11 +5,13 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.blunderer.materialdesignlibrary.R;
 import com.blunderer.materialdesignlibrary.adapters.NavigationDrawerAdapter;
@@ -56,6 +58,8 @@ public abstract class NavigationDrawerActivity extends AActivity
     private List<NavigationDrawerListItemBottom> mNavigationDrawerItemsBottom;
     private NavigationDrawerAccountsHandler mNavigationDrawerAccountsHandler;
     private int[] mAccountsPositions;
+
+    private long firstTime = 0;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -136,7 +140,7 @@ public abstract class NavigationDrawerActivity extends AActivity
         super.onSaveInstanceState(outState);
 
         outState.putInt("current_fragment_position", mTopListView.getCheckedItemPosition()
-                - (isNavigationDrawerAccountHandlerEmpty() ? 0 : 1)-mTopListView.getHeaderViewsCount());
+                - (isNavigationDrawerAccountHandlerEmpty() ? 0 : 1) - mTopListView.getHeaderViewsCount());
         if (mAccountsLayout != null) outState.putIntArray("cc", mAccountsLayout.mAccountsPositions);
     }
 
@@ -431,14 +435,26 @@ public abstract class NavigationDrawerActivity extends AActivity
 
     @Override
     public void onBackPressed() {
-        if (mCurrentItemPosition==mTopListView.getHeaderViewsCount()){
-            super.onBackPressed();
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+            mDrawerLayout.closeDrawer(mDrawerLeft);
         }else{
-            mCurrentItemPosition=0;
-            selectDefaultItemPosition(mCurrentItemPosition,true);
-            closeNavigationDrawer();
+            if (needContinuousBackToExit()){
+                long secondTime = System.currentTimeMillis();
+                if (secondTime - firstTime > 1500) {// 如果两次按键时间间隔大于1500毫秒，则不退出
+                    Toast.makeText(NavigationDrawerActivity.this, "再次点击退出程序", Toast.LENGTH_SHORT).show();
+                    firstTime = secondTime;// 更新firstTime
+                } else {
+                    super.onBackPressed();
+                }
+
+            }else{
+                super.onBackPressed();
+            }
+
         }
     }
+
+    public abstract boolean needContinuousBackToExit();
 
     private boolean isNavigationDrawerAccountHandlerEmpty() {
         return mNavigationDrawerAccountsHandler == null ||
