@@ -5,7 +5,7 @@ import android.content.Intent;
 /**
  * Created by zlq on 15-8-8.
  */
-public class DSNavigationDrawerListHeader extends ListHeader{
+public class DSNavigationAccount extends ListHeader{
     private Intent mIntent;
 
     public Intent getIntent() {

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 
-import com.blunderer.materialdesignlibrary.models.DSNavigationDrawerListHeader;
 import com.blunderer.materialdesignlibrary.models.ListItem;
 import com.blunderer.materialdesignlibrary.models.NavigationDrawerListItemHeader;
 import com.blunderer.materialdesignlibrary.models.NavigationDrawerListItemTopFragment;
@@ -18,7 +17,6 @@ public class NavigationDrawerTopHandler {
 
     private final Context mContext;
     private List<ListItem> mItems;
-    private DSNavigationDrawerListHeader listHeader;
 
     public NavigationDrawerTopHandler(Context context) {
         mContext = context;
@@ -151,18 +149,8 @@ public class NavigationDrawerTopHandler {
         return this;
     }
 
-    public NavigationDrawerTopHandler addheader(int layoutResId,Intent intent){
-        listHeader=new DSNavigationDrawerListHeader();
-        listHeader.setIntent(intent);
-        listHeader.setHeaderResId(layoutResId);
-        return this;
-    }
-
     public List<ListItem> getNavigationDrawerTopItems() {
         return mItems;
     }
 
-    public DSNavigationDrawerListHeader getListHeader() {
-        return listHeader;
-    }
 }

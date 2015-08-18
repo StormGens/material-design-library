@@ -5,6 +5,7 @@ import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerAccountsMenu
 import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerBottomHandler;
 import com.blunderer.materialdesignlibrary.handlers.NavigationDrawerTopHandler;
 import com.blunderer.materialdesignlibrary.models.Account;
+import com.blunderer.materialdesignlibrary.models.DSNavigationAccount;
 
 public interface NavigationDrawer {
 
@@ -22,6 +23,8 @@ public interface NavigationDrawer {
     void performNavigationDrawerItemClick(int position);
 
     NavigationDrawerAccountsHandler getNavigationDrawerAccountsHandler();
+
+    DSNavigationAccount getDSNavigationAccount();
 
     NavigationDrawerAccountsMenuHandler getNavigationDrawerAccountsMenuHandler();
 

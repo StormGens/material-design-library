@@ -24,7 +24,7 @@ import com.blunderer.materialdesignlibrary.interfaces.NavigationDrawer;
 import com.blunderer.materialdesignlibrary.listeners.OnAccountChangeListener;
 import com.blunderer.materialdesignlibrary.listeners.OnMoreAccountClickListener;
 import com.blunderer.materialdesignlibrary.models.Account;
-import com.blunderer.materialdesignlibrary.models.DSNavigationDrawerListHeader;
+import com.blunderer.materialdesignlibrary.models.DSNavigationAccount;
 import com.blunderer.materialdesignlibrary.models.ListItem;
 import com.blunderer.materialdesignlibrary.models.NavigationDrawerAccountsListItemAccount;
 import com.blunderer.materialdesignlibrary.models.NavigationDrawerAccountsListItemIntent;
@@ -253,21 +253,6 @@ public abstract class NavigationDrawerActivity extends AActivity
                     .remove(mCurrentItem.getFragment()).commit();
             mTopListView.setItemChecked(mCurrentItemPosition, false);
         }
-        if (navigationDrawerTopHandler != null&&navigationDrawerTopHandler.getListHeader()!=null){
-            final DSNavigationDrawerListHeader header=navigationDrawerTopHandler.getListHeader();
-            View headerView=getLayoutInflater().inflate(header.getHeaderResId(), null);
-            if (mTopListView.getHeaderViewsCount()==0){
-                mTopListView.addHeaderView(headerView);
-            }
-
-            headerView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(header.getIntent());
-                }
-            });
-
-        }
 
         mListTopAdapter.notifyDataSetChanged();
     }
@@ -385,6 +370,21 @@ public abstract class NavigationDrawerActivity extends AActivity
     }
 
     private void showAccountsLayout() {
+        final DSNavigationAccount dsNavigationAccount=getDSNavigationAccount();
+        if (dsNavigationAccount != null){
+            View headerView=getLayoutInflater().inflate(dsNavigationAccount.getHeaderResId(), null);
+            if (mTopListView.getHeaderViewsCount()==0){
+                mTopListView.addHeaderView(headerView);
+            }
+
+            headerView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(dsNavigationAccount.getIntent());
+                }
+            });
+
+        }
         mNavigationDrawerAccountsHandler = getNavigationDrawerAccountsHandler();
         if (!isNavigationDrawerAccountHandlerEmpty()) {
             if (mNavigationDrawerAccountsHandler.useSmallAccountsLayout()) {
