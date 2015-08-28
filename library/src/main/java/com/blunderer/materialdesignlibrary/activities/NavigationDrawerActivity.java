@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blunderer.materialdesignlibrary.R;
@@ -41,6 +42,9 @@ import com.blunderer.materialdesignlibrary.views.ToolbarSearch;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public abstract class NavigationDrawerActivity extends AActivity
         implements NavigationDrawer, OnAccountChangeListener {
 
@@ -219,6 +223,7 @@ public abstract class NavigationDrawerActivity extends AActivity
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
 
+                onDawerOpened();
                 replaceTitle(getTitle().toString());
             }
 
@@ -292,7 +297,7 @@ public abstract class NavigationDrawerActivity extends AActivity
             }
             mCurrentItem = itemFragment;
             mCurrentItemPosition = (isNavigationDrawerAccountHandlerEmpty() ? 0 : 1)
-                    +mTopListView.getHeaderViewsCount()+ fragmentPosition;
+                    + mTopListView.getHeaderViewsCount() + fragmentPosition;
 
             mTopListView.setItemChecked(mCurrentItemPosition, true);
             replaceTitle(mCurrentItem);
@@ -314,7 +319,7 @@ public abstract class NavigationDrawerActivity extends AActivity
                     }
                     mCurrentItem = itemFragment;
                     mCurrentItemPosition = (isNavigationDrawerAccountHandlerEmpty() ?
-                            0 : 1) +mTopListView.getHeaderViewsCount() + i;
+                            0 : 1) + mTopListView.getHeaderViewsCount() + i;
 
                     mTopListView.setItemChecked(mCurrentItemPosition, true);
                     replaceTitle(mCurrentItem);
@@ -370,10 +375,11 @@ public abstract class NavigationDrawerActivity extends AActivity
     }
 
     private void showAccountsLayout() {
-        final DSNavigationAccount dsNavigationAccount=getDSNavigationAccount();
-        if (dsNavigationAccount != null){
-            View headerView=getLayoutInflater().inflate(dsNavigationAccount.getHeaderResId(), null);
-            if (mTopListView.getHeaderViewsCount()==0){
+        final DSNavigationAccount dsNavigationAccount = getDSNavigationAccount();
+        if (dsNavigationAccount != null) {
+            View headerView = getLayoutInflater().inflate(dsNavigationAccount.getHeaderResId(), null);
+            onLeftHeadInit(headerView);
+            if (mTopListView.getHeaderViewsCount() == 0) {
                 mTopListView.addHeaderView(headerView);
             }
 
@@ -435,10 +441,10 @@ public abstract class NavigationDrawerActivity extends AActivity
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(mDrawerLeft);
-        }else{
-            if (needContinuousBackToExit()){
+        } else {
+            if (needContinuousBackToExit()) {
                 long secondTime = System.currentTimeMillis();
                 if (secondTime - firstTime > 1500) {// 如果两次按键时间间隔大于1500毫秒，则不退出
                     Toast.makeText(NavigationDrawerActivity.this, "再次点击退出程序", Toast.LENGTH_SHORT).show();
@@ -447,7 +453,7 @@ public abstract class NavigationDrawerActivity extends AActivity
                     super.onBackPressed();
                 }
 
-            }else{
+            } else {
                 super.onBackPressed();
             }
 
@@ -464,4 +470,15 @@ public abstract class NavigationDrawerActivity extends AActivity
     public NavigationDrawerListItemTopFragment getmCurrentItem() {
         return mCurrentItem;
     }
+
+    /**
+     * 当左侧滑菜单打开时,需要处理的工作,可空实现
+     */
+    public abstract void onDawerOpened();
+
+    /**
+     * 左侧头部view的初始化
+     * @param headerView 左侧头部View
+     */
+    public abstract void onLeftHeadInit(View headerView);
 }
