@@ -64,6 +64,7 @@ public abstract class NavigationDrawerActivity extends AActivity
     private int[] mAccountsPositions;
 
     private long firstTime = 0;
+    private View headerView;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -215,7 +216,7 @@ public abstract class NavigationDrawerActivity extends AActivity
             @Override
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-
+                onDrawerClose();
                 if (mCurrentItem != null) replaceTitle(mCurrentItem);
             }
 
@@ -223,7 +224,7 @@ public abstract class NavigationDrawerActivity extends AActivity
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
 
-                onDawerOpened();
+                onDrawerOpen(headerView);
                 replaceTitle(getTitle().toString());
             }
 
@@ -377,8 +378,7 @@ public abstract class NavigationDrawerActivity extends AActivity
     private void showAccountsLayout() {
         final DSNavigationAccount dsNavigationAccount = getDSNavigationAccount();
         if (dsNavigationAccount != null) {
-            View headerView = getLayoutInflater().inflate(dsNavigationAccount.getHeaderResId(), null);
-            onLeftHeadInit(headerView);
+            headerView = getLayoutInflater().inflate(dsNavigationAccount.getHeaderResId(), null);
             if (mTopListView.getHeaderViewsCount() == 0) {
                 mTopListView.addHeaderView(headerView);
             }
@@ -471,14 +471,13 @@ public abstract class NavigationDrawerActivity extends AActivity
         return mCurrentItem;
     }
 
-    /**
-     * 当左侧滑菜单打开时,需要处理的工作,可空实现
-     */
-    public abstract void onDawerOpened();
 
     /**
-     * 左侧头部view的初始化
-     * @param headerView 左侧头部View
+     * 当左侧滑菜单打开时,需要处理的工作
+     *
+     * @param view 侧滑菜单头部view,打开drawer时先初始化该view
      */
-    public abstract void onLeftHeadInit(View headerView);
+    public abstract void onDrawerOpen(View view);
+
+    public abstract void onDrawerClose();
 }
