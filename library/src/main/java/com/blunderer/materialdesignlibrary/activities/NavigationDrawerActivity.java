@@ -386,7 +386,9 @@ public abstract class NavigationDrawerActivity extends AActivity
             headerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(dsNavigationAccount.getIntent());
+                    if (null != dsNavigationAccount.getIntent()) {
+                        startActivity(dsNavigationAccount.getIntent());
+                    }
                 }
             });
 
